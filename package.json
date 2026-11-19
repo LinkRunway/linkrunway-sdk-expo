@@ -1,6 +1,6 @@
 {
   "name": "@linkrunway/sdk-expo",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "LinkRunway SDK for expo.",
   "license": "MIT",
   "author": "Kimeur Labs, LLC <support@linkrunway.com>",
@@ -53,7 +53,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@linkrunway/sdk-react-native": "https://github.com/LinkRunway/linkrunway-sdk-react-native/releases/download/0.2.0/linkrunway-sdk-react-native-0.2.0.tgz"
+    "@linkrunway/sdk-react-native": "https://github.com/LinkRunway/linkrunway-sdk-react-native/releases/download/0.3.0/linkrunway-sdk-react-native-0.3.0.tgz"
   },
   "publishConfig": {
     "access": "public"
@@ -62,10 +62,10 @@
     "@expo/config-plugins": "*"
   },
   "devDependencies": {
+    "@expo/config-plugins": "57.0.13",
     "@types/node": "22.15.3",
     "tsup": "8.5.0",
     "typescript": "5.9.3",
-    "vitest": "4.1.12",
-    "@expo/config-plugins": "57.0.11"
+    "vitest": "4.1.12"
   }
 }

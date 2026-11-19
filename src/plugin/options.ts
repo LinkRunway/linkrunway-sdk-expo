@@ -4,7 +4,7 @@ export type LinkRunwayPluginOptions = {
   /** A custom URL scheme to register for the app, such as `myapp`. Added to the config's `scheme`. */
   scheme?: string;
   /** Paths to register on Android. Defaults to ["/l/"]. Use ["/r/"] for website links. */
-  linkPaths?: ('/l/' | '/r/')[];
+  linkPaths?: ('/l/' | '/r/' | '/')[];
 };
 const label = /^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$/;
 const topLevel = /^([a-z]{2,63}|xn--[a-z0-9-]{1,59})$/;
@@ -48,11 +48,13 @@ export function normalizeOptions(options: unknown): LinkRunwayPluginOptions {
     linkPaths !== undefined &&
     (!Array.isArray(linkPaths) ||
       !linkPaths.length ||
-      linkPaths.some((path) => path !== '/l/' && path !== '/r/'))
+      linkPaths.some((path) => path !== '/l/' && path !== '/r/' && path !== '/'))
   )
-    fail('"linkPaths" must contain "/l/" or "/r/"');
+    fail('"linkPaths" must contain "/l/", "/r/" or "/"');
   const paths =
-    linkPaths === undefined ? {} : { linkPaths: [...new Set(linkPaths)] as ('/l/' | '/r/')[] };
+    linkPaths === undefined
+      ? {}
+      : { linkPaths: [...new Set(linkPaths)] as ('/l/' | '/r/' | '/')[] };
   if (scheme === undefined) return { domains: hosts, ...paths };
   if (typeof scheme !== 'string' || !schemeShape.test(scheme) || reserved.includes(scheme))
     fail(`"scheme" must be a custom URL scheme in lowercase, such as "myapp"`);

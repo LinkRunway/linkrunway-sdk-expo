@@ -92,6 +92,14 @@ describe('the plugin inside the Expo mod compiler', () => {
       'is not a hostname',
     );
   });
+  it('opts a dedicated host into root paths', async () => {
+    const domain = 'r.example.com';
+    const done = await compile(withLinkRunway(app(), { domains: [domain], linkPaths: ['/'] }));
+    expect(done.filters.filter((filter) => filter.$?.['android:autoVerify'])).toEqual([
+      appLinkFilter(domain, '/'),
+    ]);
+    expect(entitlement(done.config)).toEqual(['applinks:' + domain]);
+  });
   it('opts website domains into /r/ without claiming unrelated pages', async () => {
     const opts = { domains: ['simarik.example.com'], linkPaths: ['/r/' as const] };
     const done = await compile(withLinkRunway(withLinkRunway(app(), opts), opts));
@@ -99,7 +107,7 @@ describe('the plugin inside the Expo mod compiler', () => {
       appLinkFilter('simarik.example.com', '/r/'),
     ]);
     expect(entitlement(done.config)).toEqual(['applinks:simarik.example.com']);
-    for (const paths of [[], ['/'], ['/r/', '/api/']])
+    for (const paths of [[], ['/unknown/'], ['/r/', '/api/']])
       expect(() => withLinkRunway(app(), { ...opts, linkPaths: paths as ['/r/'] })).toThrow(
         'linkPaths',
       );
